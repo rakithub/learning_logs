@@ -5,8 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
 def check_topic_owner(request, topic):
-    if topic.owner != request.user:
-        raise Http404
+    try:
+        if topic.owner != request.user:
+            raise Http404
+    except Http404:
+        return redirect("learning_logs:index")
+
 
 def index(request):
     """Home page for Learning Log"""
