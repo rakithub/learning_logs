@@ -1,1 +1,0 @@
-from learning_log.wsgi import application
