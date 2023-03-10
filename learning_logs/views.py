@@ -4,12 +4,14 @@ from .forms import TopicForm, EntryForm
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
-def check_topic_owner(request, topic):
+def topic_owner_verified(request, topic):
     try:
         if topic.owner != request.user:
             raise Http404
     except Http404:
-        return redirect("learning_logs:index")
+        return False
+    else:
+        return True
 
 
 def index(request):
@@ -29,7 +31,8 @@ def topics(request):
 def topic(request, topic_id):
     """Individual topic page that display its entries"""
     topic = Topic.objects.get(id=topic_id)
-    check_topic_owner(request, topic)
+    if not topic_owner_verified(request, topic):
+        return redirect('learning_logs:index')
 
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
@@ -60,7 +63,8 @@ def new_topic(request):
 def new_entry(request, topic_id):
     """Create a new entry for a particular topic"""
     topic = Topic.objects.get(id=topic_id)
-    check_topic_owner(request, topic)
+    if not topic_owner_verified(request, topic):
+        return redirect('learning_logs:index')
 
     if request.method != 'POST':
         # No data submitted; create blank form
@@ -84,7 +88,8 @@ def edit_entry(request, entry_id):
     """Edit an existing entry"""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
-    check_topic_owner(request, topic)
+    if not topic_owner_verified(request, topic):
+        return redirect('learning_logs:index')
 
     if request.method != 'POST':
         # Initial request; prefill form with the current entry
