@@ -3,7 +3,7 @@
       "src": "index.py",
       "use": "@ardnt/vercel-python-wsgi",
       "config": { "maxLambdaSize": "15mb",
-                  "runtime": "python-3.9.6",
+                  "runtime": "python3.9",
                   "wsgiApplicationName": "application"
       }
   }],
