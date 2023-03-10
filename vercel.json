@@ -6,10 +6,6 @@
                   "runtime": "python3.9",
                   "wsgiApplicationName": "application"
       }
-  }],
-
-  "routes" : [{
-    "src" : "/(.*)", "dest":"/"
   }]
 }
 
