@@ -3,11 +3,11 @@
       "src": "index.py",
       "use": "@ardnt/vercel-python-wsgi",
       "config": { "maxLambdaSize": "15mb",
-                  "runtime": "python3.6",
+                  "runtime": "python3.9.6",
                   "wsgiApplicationName": "application"
       }
   }],
-  
+
   "routes" : [{
     "src" : "/(.*)", "dest":"/"
   }]
